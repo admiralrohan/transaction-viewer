@@ -25,6 +25,7 @@ export default function handler(
   if (!transactionDetails) return res.status(200).json({ data: [] });
   const result: Installment[] = relevantInstallments.map((installment) => ({
     ...transactionDetails,
+    id: installment.id,
     paidAmount: installment.paidAmount,
   }));
 
