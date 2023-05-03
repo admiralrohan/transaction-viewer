@@ -1,6 +1,7 @@
 import * as React from "react";
 import Installment from "@interfaces/installment";
 import IWrapper from "@interfaces/IWrapper";
+import Link from "next/link";
 
 interface ITransaction {
   id: number;
@@ -27,8 +28,8 @@ function Transaction({ id }: ITransaction) {
   }, [id]);
 
   return (
-    <div className="flex justify-center w-full">
-      <table className="border-collapse w-4/5">
+    <div className="w-full">
+      <table className="border-collapse w-4/5 m-auto">
         <thead>
           <tr>
             <TH>ID</TH>
@@ -51,6 +52,12 @@ function Transaction({ id }: ITransaction) {
           ))}
         </tbody>
       </table>
+
+      <div className="text-center mt-6">
+        <Link href="/" className="hover:underline">
+          Back
+        </Link>
+      </div>
     </div>
   );
 }
