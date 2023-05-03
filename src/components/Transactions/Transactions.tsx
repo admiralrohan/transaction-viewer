@@ -5,15 +5,22 @@ import Link from "next/link";
 
 function Transactions() {
   const [transactions, setTransactions] = React.useState<Transaction[]>([]);
+  const [status, setStatus] = React.useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
 
   React.useEffect(() => {
+    setStatus("loading");
     fetch("/api/transactions")
       .then((response) => response.json())
       .then(({ data }) => {
-        console.log(data);
         setTransactions(data);
+        setStatus("success");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        setStatus("error");
+      });
   }, []);
 
   return (
