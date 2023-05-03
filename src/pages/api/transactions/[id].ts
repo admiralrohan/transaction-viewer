@@ -28,6 +28,7 @@ export default function handler(
     id: installment.id,
     paidAmount: installment.paidAmount,
   }));
+  result.sort((a, b) => a.id - b.id);
 
   res.status(200).json({ data: result });
 }
