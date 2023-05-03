@@ -3,6 +3,7 @@ interface Transaction {
   sender: string;
   receiver: string;
   totalAmount: number;
+  totalPaidAmount: number;
 }
 
 export default Transaction;

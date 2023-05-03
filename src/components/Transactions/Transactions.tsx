@@ -34,7 +34,7 @@ function Transactions() {
               <td>{tx.sender}</td>
               <td>{tx.receiver}</td>
               <td>{tx.totalAmount}</td>
-              <td>{tx.totalAmount}</td>
+              <td>{tx.totalPaidAmount}</td>
             </tr>
           ))}
         </tbody>
