@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import db from "@db/Parent.json";
+import Transaction from "@interfaces/transaction";
 
 type Data = {
-  data: { id: number; sender: string; receiver: string; totalAmount: number }[];
+  data: Transaction[];
 };
 
 export default function handler(
