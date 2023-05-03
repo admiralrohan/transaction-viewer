@@ -1,7 +1,7 @@
 import * as React from "react";
-import Installment from "@interfaces/installment";
-import IWrapper from "@interfaces/IWrapper";
 import Link from "next/link";
+import Table from "@components/Table";
+import Installment from "@interfaces/installment";
 
 interface ITransaction {
   id: number;
@@ -29,29 +29,27 @@ function Transaction({ id }: ITransaction) {
 
   return (
     <div className="w-full">
-      <table className="border-collapse w-4/5 m-auto">
-        <thead>
+      <Table
+        header={
           <tr>
-            <TH>ID</TH>
-            <TH>Sender</TH>
-            <TH>Receiver</TH>
-            <TH>Total Amount</TH>
-            <TH>Paid Amount</TH>
+            <Table.TH>ID</Table.TH>
+            <Table.TH>Sender</Table.TH>
+            <Table.TH>Receiver</Table.TH>
+            <Table.TH>Total Amount</Table.TH>
+            <Table.TH>Paid Amount</Table.TH>
           </tr>
-        </thead>
-
-        <tbody>
-          {installments.map((installment) => (
-            <tr key={installment.id}>
-              <TD>{installment.id}</TD>
-              <TD>{installment.sender}</TD>
-              <TD>{installment.receiver}</TD>
-              <TD>{installment.totalAmount}</TD>
-              <TD>{installment.paidAmount}</TD>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        }
+      >
+        {installments.map((installment) => (
+          <tr key={installment.id}>
+            <Table.TD>{installment.id}</Table.TD>
+            <Table.TD>{installment.sender}</Table.TD>
+            <Table.TD>{installment.receiver}</Table.TD>
+            <Table.TD>{installment.totalAmount}</Table.TD>
+            <Table.TD>{installment.paidAmount}</Table.TD>
+          </tr>
+        ))}
+      </Table>
 
       <div className="text-center mt-6">
         <Link href="/" className="hover:underline">
@@ -59,28 +57,6 @@ function Transaction({ id }: ITransaction) {
         </Link>
       </div>
     </div>
-  );
-}
-
-function TH({ children }: IWrapper) {
-  return (
-    <th
-      className="bg-gray-100 border-b border-gray-200 px-8 py-4
-    text-gray-800 font-bold text-left"
-    >
-      {children}
-    </th>
-  );
-}
-
-function TD({ children }: IWrapper) {
-  return (
-    <th
-      className="border-b border-gray-200 font-normal
-      px-8 py-4 text-gray-700 text-left"
-    >
-      {children}
-    </th>
   );
 }
 
