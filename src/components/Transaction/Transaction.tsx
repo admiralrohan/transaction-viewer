@@ -1,5 +1,6 @@
 import * as React from "react";
 import Installment from "@interfaces/installment";
+import IWrapper from "@interfaces/IWrapper";
 
 interface ITransaction {
   id: number;
@@ -7,42 +8,72 @@ interface ITransaction {
 
 function Transaction({ id }: ITransaction) {
   const [installments, setInstallments] = React.useState<Installment[]>([]);
+  const [status, setStatus] = React.useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
 
   React.useEffect(() => {
+    setStatus("loading");
     fetch("/api/transactions/" + id)
       .then((response) => response.json())
       .then(({ data }) => {
         setInstallments(data);
+        setStatus("success");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        setStatus("error");
+      });
   }, [id]);
 
   return (
-    <div>
-      <table>
+    <div className="flex justify-center w-full">
+      <table className="border-collapse w-4/5">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Sender</th>
-            <th>Receiver</th>
-            <th>Total Amount</th>
-            <th>Paid Amount</th>
+            <TH>ID</TH>
+            <TH>Sender</TH>
+            <TH>Receiver</TH>
+            <TH>Total Amount</TH>
+            <TH>Paid Amount</TH>
           </tr>
         </thead>
 
         <tbody>
           {installments.map((installment) => (
             <tr key={installment.id}>
-              <td>{installment.id}</td>
-              <td>{installment.sender}</td>
-              <td>{installment.receiver}</td>
-              <td>{installment.totalAmount}</td>
-              <td>{installment.paidAmount}</td>
+              <TD>{installment.id}</TD>
+              <TD>{installment.sender}</TD>
+              <TD>{installment.receiver}</TD>
+              <TD>{installment.totalAmount}</TD>
+              <TD>{installment.paidAmount}</TD>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+  );
+}
+
+function TH({ children }: IWrapper) {
+  return (
+    <th
+      className="bg-gray-100 border-b border-gray-200 px-8 py-4
+    text-gray-800 font-bold text-left"
+    >
+      {children}
+    </th>
+  );
+}
+
+function TD({ children }: IWrapper) {
+  return (
+    <th
+      className="border-b border-gray-200 font-normal
+      px-8 py-4 text-gray-700 text-left"
+    >
+      {children}
+    </th>
   );
 }
 
