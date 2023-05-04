@@ -5,16 +5,19 @@ import Transaction from "@interfaces/transaction";
 
 type Data = {
   data: Transaction[];
+  totalPages: number;
 };
 
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  const page = Number(req.query.page) || 1;
+  const perPage = Number(req.query.perPage) || 2;
   const { data: transactions } = transactionsDb;
   const { data: installments } = installmentsDb;
 
-  const result = transactions.map((tx) => {
+  const formattedTransactions = transactions.map((tx) => {
     const totalPaidAmount = installments
       .filter((installment) => installment.parentId === tx.id)
       .reduce((totalValue, currentInstallment) => {
@@ -24,5 +27,13 @@ export default function handler(
     return { ...tx, totalPaidAmount };
   });
 
-  res.status(200).json({ data: result });
+  const startIndex = (page - 1) * perPage;
+  const endIndex = page * perPage;
+
+  const data = formattedTransactions
+    .sort((a, b) => a.id - b.id)
+    .slice(startIndex, endIndex);
+  const totalPages = Math.ceil(formattedTransactions.length / perPage);
+
+  res.status(200).json({ data, totalPages });
 }

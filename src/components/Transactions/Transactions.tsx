@@ -9,19 +9,23 @@ function Transactions() {
     "idle" | "loading" | "success" | "error"
   >("idle");
 
+  const [totalPages, setTotalPages] = React.useState(1);
+  const [currentPage, setCurrentPage] = React.useState(1);
+
   React.useEffect(() => {
     setStatus("loading");
-    fetch("/api/transactions")
+    fetch(`/api/transactions?page=${currentPage}&perPage=2`)
       .then((response) => response.json())
-      .then(({ data }) => {
-        setTransactions(data);
+      .then((data) => {
+        setTransactions(data.data);
+        setTotalPages(data.totalPages);
         setStatus("success");
       })
       .catch((error) => {
         console.error(error);
         setStatus("error");
       });
-  }, []);
+  }, [currentPage]);
 
   return (
     <div>
@@ -50,6 +54,22 @@ function Transactions() {
           </tr>
         ))}
       </Table>
+
+      <div className="flex justify-center gap-4 mt-6">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
+          Prev
+        </button>
+        <span>{currentPage}</span>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
