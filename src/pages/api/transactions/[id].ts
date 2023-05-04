@@ -23,12 +23,15 @@ export default function handler(
   );
 
   if (!transactionDetails) return res.status(200).json({ data: [] });
-  const result: Installment[] = relevantInstallments.map((installment) => ({
-    ...transactionDetails,
-    id: installment.id,
-    paidAmount: installment.paidAmount,
-  }));
-  result.sort((a, b) => a.id - b.id);
 
-  res.status(200).json({ data: result });
+  const formattedInstallments: Installment[] = relevantInstallments.map(
+    (installment) => ({
+      ...transactionDetails,
+      id: installment.id,
+      paidAmount: installment.paidAmount,
+    })
+  );
+  const data = formattedInstallments.sort((a, b) => a.id - b.id);
+
+  res.status(200).json({ data });
 }
