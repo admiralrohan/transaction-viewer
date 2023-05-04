@@ -69,21 +69,31 @@ function Transactions() {
       </Table>
 
       <div className="flex justify-center gap-4 mt-6">
-        <button
+        <Button
           disabled={currentPage === 1}
           onClick={() => setCurrentPage(currentPage - 1)}
         >
           Prev
-        </button>
+        </Button>
         <span>{currentPage}</span>
-        <button
+        <Button
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage(currentPage + 1)}
         >
           Next
-        </button>
+        </Button>
       </div>
     </div>
+  );
+}
+
+function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return (
+    <button
+      {...props}
+      className="hover:underline
+      disabled:text-gray-400 disabled:pointer-events-none"
+    />
   );
 }
 
