@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import transactionsDb from "@db/Parent.json";
 import installmentsDb from "@db/Child.json";
 import Transaction from "@interfaces/transaction";
+import { defaultPageSize } from "@constants/index";
 
 type Data = {
   data: Transaction[];
@@ -13,7 +14,7 @@ export default function handler(
   res: NextApiResponse<Data>
 ) {
   const page = Number(req.query.page) || 1;
-  const perPage = Number(req.query.perPage) || 2;
+  const perPage = Number(req.query.perPage) || defaultPageSize;
   const { data: transactions } = transactionsDb;
   const { data: installments } = installmentsDb;
 

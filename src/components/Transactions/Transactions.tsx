@@ -2,6 +2,7 @@ import * as React from "react";
 import Transaction from "@interfaces/transaction";
 import Table from "@components/Table";
 import Link from "next/link";
+import { defaultPageSize } from "@constants/index";
 
 function Transactions() {
   const [transactions, setTransactions] = React.useState<Transaction[]>([]);
@@ -14,7 +15,7 @@ function Transactions() {
 
   React.useEffect(() => {
     setStatus("loading");
-    fetch(`/api/transactions?page=${currentPage}&perPage=2`)
+    fetch(`/api/transactions?page=${currentPage}&perPage=${defaultPageSize}`)
       .then((response) => response.json())
       .then((data) => {
         setTransactions(data.data);
