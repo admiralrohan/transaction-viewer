@@ -28,6 +28,18 @@ function Transactions() {
       });
   }, [currentPage]);
 
+  if (status === "loading") {
+    return <div className="flex justify-center">Loading...</div>;
+  }
+
+  if (status === "error") {
+    return (
+      <div className="flex justify-center">
+        Some error happened. Refresh the page.
+      </div>
+    );
+  }
+
   return (
     <div>
       <Table
